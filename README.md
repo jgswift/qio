@@ -1,6 +1,6 @@
 qio
 ====
-PHP 5.5+ I/O utility package
+PHP 5.5+ I/O utility package 
 
 [![Build Status](https://travis-ci.org/jgswift/qio.png?branch=master)](https://travis-ci.org/jgswift/qio)
 
