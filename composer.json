@@ -1,0 +1,31 @@
+{
+    "name": "jgswift/qio",
+    "description": "PHP 5.5+ I/O utility package",
+    "keywords": ["php", "io", "stream", "filesystem","utility"],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Josh Swift",
+            "email": "joshuaswift@gmail.com",
+            "homepage": "http://www.kinesisphp.com",
+            "role": "Developer"
+        }
+    ],    
+    "require": {
+        "php": ">=5.5",
+        "jgswift/qtil": "dev-master",
+        "jgswift/kfiltr": "dev-master",
+        "jgswift/observr": "dev-master",
+        "jgswift/kenum": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "qio\\": "src/",
+            "qio\\Tests\\": "tests/"
+        }
+    }
+}
