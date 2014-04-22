@@ -6,7 +6,7 @@ namespace qio\Stream {
         
         /**
          * Stores context resource
-         * @var resource 
+         * @var mixed 
          */
         private $context;
         
@@ -33,10 +33,10 @@ namespace qio\Stream {
         
         /**
          * Creates context resource
-         * @return resource
+         * @return mixed
          */
         public function create() {
-            $this->context = stream_context_create(
+            $this->context = \stream_context_create(
                     $this->options->toArray(),
                     $this->data->toArray()
                 );
@@ -59,9 +59,9 @@ namespace qio\Stream {
          * stream_context_set_option and stream_context_set_params
          */
         private function initialize() {
-            $this->options->merge(stream_context_get_options($this->context));
+            $this->options->merge(\stream_context_get_options($this->context));
             $this->options->attach('set',function($sender,$e) {
-                stream_context_set_option(
+                \stream_context_set_option(
                         $this->context,
                         $this->wrapper,
                         $e->offset,
@@ -69,9 +69,9 @@ namespace qio\Stream {
                     );
             });
             
-            $this->data->merge(stream_context_get_params($this->context));
+            $this->data->merge(\stream_context_get_params($this->context));
             $this->data->attach('set',function($sender,$e) {
-                stream_context_set_params(
+                \stream_context_set_params(
                         $this->context, 
                         $this->data->toArray()
                     );

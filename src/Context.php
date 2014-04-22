@@ -18,7 +18,7 @@ namespace qio {
 
         /**
          * Creates IO context from options and data stored locally
-         * @return resource
+         * @return mixed
          */
         function create();
         
