@@ -38,7 +38,7 @@ namespace qio\Tests {
             
             $list = $reader->scan();
             
-            $this->assertEquals(1,count($list));
+            $this->assertEquals(2,count($list));
         }
         
         function testFileCacheUpdateAll() {
@@ -51,7 +51,7 @@ namespace qio\Tests {
             
             $list = $reader->scan();
             
-            $this->assertEquals(1,count($list));
+            $this->assertEquals(2,count($list));
         }
     }
 }
