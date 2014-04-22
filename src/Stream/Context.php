@@ -12,7 +12,7 @@ namespace qio\Stream {
         
         /**
          * Stores context wrapper protocol
-         * @var type 
+         * @var string 
          */
         private $wrapper;
         
@@ -48,7 +48,7 @@ namespace qio\Stream {
         
         /**
          * Checks if context was already created
-         * @return type
+         * @return boolean
          */
         public function isCreated() {
             return !empty($this->context) ? true : false;

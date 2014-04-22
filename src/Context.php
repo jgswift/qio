@@ -18,11 +18,13 @@ namespace qio {
 
         /**
          * Creates IO context from options and data stored locally
+         * @return resource
          */
         function create();
         
         /**
          * Checks if IO context is created
+         * @return boolean
          */
         function isCreated();
     }
