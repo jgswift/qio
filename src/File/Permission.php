@@ -28,55 +28,64 @@ namespace qio\File {
          * @return string
          */
         function __toString() {
-            $value = $this->value();
+            $info = $this->getBaseString();
             
-            if ($this->hasFlag(self::Socket)) {
-                // Socket
-                $info = 's';
-            } elseif ($this->hasFlag(self::Symbol)) {
-                // Symbolic Link
-                $info = 'l';
-            } elseif ($this->hasFlag(self::Regular)) {
-                // Regular
-                $info = '-';
-            } elseif ($this->hasFlag(self::Block)) {
-                // Block special
-                $info = 'b';
-            } elseif ($this->hasFlag(self::Directory)) {
-                // Directory
-                $info = 'd';
-            } elseif ($this->hasFlag(self::Character)) {
-                // Character special
-                $info = 'c';
-            } elseif ($this->hasFlag(self::Pipe)) {
-                // FIFO pipe
-                $info = 'p';
-            } else {
-                // Unknown
-                $info = 'u';
-            }
+            $info .= $this->getExtraString();
             
-            $info .= ($this->hasFlag(self::OwnerExecute) ? 'r' : '-');
-            $info .= ($this->hasFlag(0x0080) ? 'w' : '-');
-            $info .= ($this->hasFlag(0x0040) ?
+            return $info;
+        }
+        
+        private function getExtraString() {
+            $extra = '';
+            $extra .= ($this->hasFlag(self::OwnerExecute) ? 'r' : '-');
+            $extra .= ($this->hasFlag(0x0080) ? 'w' : '-');
+            $extra .= ($this->hasFlag(0x0040) ?
                         ($this->hasFlag(0x0800) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0800) ? 'S' : '-'));
 
             // Group
-            $info .= ($this->hasFlag(self::GroupWrite) ? 'r' : '-');
-            $info .= ($this->hasFlag(self::GroupExecute) ? 'w' : '-');
-            $info .= ($this->hasFlag(0x0008) ?
+            $extra .= ($this->hasFlag(self::GroupWrite) ? 'r' : '-');
+            $extra .= ($this->hasFlag(self::GroupExecute) ? 'w' : '-');
+            $extra .= ($this->hasFlag(0x0008) ?
                         ($this->hasFlag(0x0400) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0400) ? 'S' : '-'));
 
             // World
-            $info .= ($this->hasFlag(self::WorldRead) ? 'r' : '-');
-            $info .= ($this->hasFlag(self::WorldWrite) ? 'w' : '-');
-            $info .= ($this->hasFlag(self::WorldExecute) ?
+            $extra .= ($this->hasFlag(self::WorldRead) ? 'r' : '-');
+            $extra .= ($this->hasFlag(self::WorldWrite) ? 'w' : '-');
+            $extra .= ($this->hasFlag(self::WorldExecute) ?
                         ($this->hasFlag(0x0200) ? 't' : 'x' ) :
                         ($this->hasFlag(0x0200) ? 'T' : '-'));
             
-            return $info;
+            return $extra;
+        }
+        
+        private function getBaseString() {
+            if ($this->hasFlag(self::Socket)) {
+                // Socket
+                return 's';
+            } elseif ($this->hasFlag(self::Symbol)) {
+                // Symbolic Link
+                return 'l';
+            } elseif ($this->hasFlag(self::Regular)) {
+                // Regular
+                return '-';
+            } elseif ($this->hasFlag(self::Block)) {
+                // Block special
+                return 'b';
+            } elseif ($this->hasFlag(self::Directory)) {
+                // Directory
+                return 'd';
+            } elseif ($this->hasFlag(self::Character)) {
+                // Character special
+                return 'c';
+            } elseif ($this->hasFlag(self::Pipe)) {
+                // FIFO pipe
+                return 'p';
+            } else {
+                // Unknown
+                return 'u';
+            }
         }
     }
 }
