@@ -47,13 +47,13 @@ namespace qio {
         
         /**
          * Retrieve time asset was last modified
-         * @return void
+         * @return string
          */
         function getLastModified();
 
         /**
          * Updates asset timestamp
-         * @return void
+         * @return string
          */
         function setLastModified($lastModified);
     }
