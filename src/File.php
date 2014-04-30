@@ -35,9 +35,9 @@ namespace qio {
         /**
          * Default file constructor
          * @param string $path
-         * @param \qio\IO\Directory $parent
+         * @param \qio\Directory $parent
          */
-        public function __construct($path = null, IO\Directory $parent = null) {
+        public function __construct($path = null, Directory $parent = null) {
             $this->path = $path;
             $this->parent = $parent;
         }
