@@ -3,6 +3,12 @@ namespace qio\Directory {
     class Reader extends \qio\File\Reader {
         
         /**
+         * Stores reader stream
+         * @var \qio\Directory\Stream 
+         */
+        protected $stream;
+        
+        /**
          * Default directory reader
          * @param integer $length
          * @return \qio\Directory|\qio\File

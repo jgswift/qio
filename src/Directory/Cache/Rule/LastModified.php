@@ -61,8 +61,8 @@ namespace qio\Directory\Cache\Rule {
                 return;
             }
             
-            $sourceLastModified = $rule->source->getLastModified();
-            $targetLastModified = $rule->target->getLastModified();
+            $sourceLastModified = $this->source->getLastModified();
+            $targetLastModified = $this->target->getLastModified();
             
             $cache->attach('has', function($sender, $e) use($sourceLastModified,$targetLastModified) {
                 if($sourceLastModified > $targetLastModified) {

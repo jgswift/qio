@@ -1,23 +1,57 @@
 <?php
-//TODO: use kenum bitwise enum to represent file permissions
 namespace qio {
     class File implements Resource
     {
+        /**
+         * Stores file path
+         * @var string
+         */
         protected $path;
+        
+        /**
+         * Stores file parent directory
+         * @var type 
+         */
         protected $parent;
+        
+        /**
+         * Stores file size
+         * @var integer
+         */
         protected $size;
+        
+        /**
+         * Stores file info
+         * @var array 
+         */
         protected $pathinfo;
         
-        function __construct($path = null, IO\Directory $parent = null) {
+        /**
+         * Default file constructor
+         * @param string $path
+         * @param \qio\IO\Directory $parent
+         */
+        public function __construct($path = null, IO\Directory $parent = null) {
             $this->path = $path;
             $this->parent = $parent;
         }
 
-        function __toString() {
-            return $this->path;
+        /**
+         * Default toString method
+         * @return string
+         */
+        public function __toString() {
+            if(is_string($this->path)){
+                return $this->path;
+            }
+            return '';
         }
 
-        function getPathInfo() {
+        /**
+         * Retrieve file pathinfo
+         * @return array
+         */
+        public function getPathInfo() {
             if(!is_null( $this->pathinfo)) {
                 return $this->pathinfo;
             }
@@ -25,29 +59,56 @@ namespace qio {
             return $this->pathinfo = pathinfo($this->path);
         }
         
+        /**
+         * Retrieves absolute path
+         * @return string
+         */
         public function getAbsolutePath() {
             return stream_resolve_include_path($this->path);
         }
 
+        /**
+         * Retrieve file path
+         * @return string
+         */
         public function getPath() {
             return $this->path;
         }
         
+        /**
+         * Retrieve file default mode
+         * Always READ
+         * @return integer
+         */
         public function getDefaultMode() {
             return Stream\Mode::Read;
         }
 
+        /**
+         * Update file path
+         * @param string $path
+         */
         public function setPath($path) {
             $this->path = $path;
             unset($this->pathinfo);
         }
 
-        function getSizeString($system = 'si', $string = '%01.2f %s') {
+        /**
+         * Helper method to generate string from size
+         * @param integer $system 0 or 1 SizeView::IEC or SizeView::Binary
+         * @param string $string SprintF format string
+         * @return string
+         */
+        public function getSizeString($system = File\SizeView::IEC, $string = '%01.2f %s') {
             $sizeView = new File\SizeView($this->getSize(),$system,$string);
             return (string)$sizeView;
         }
 
-        function getSize() {
+        /**
+         * Retrieve file size
+         * @return boolean|integer
+         */
+        public function getSize() {
             if(isset($this->size)) {
                 return $this->size;
             }
@@ -59,7 +120,12 @@ namespace qio {
             return false;
         }
 
-        function setSize($size) {
+        /**
+         * Update file size
+         * @param integer $size
+         * @throws \InvalidArgumentException
+         */
+        public function setSize($size) {
             if(is_numeric($size)) {
                 $this->size = $size;
             } else  {
@@ -67,11 +133,19 @@ namespace qio {
             }
         }
 
-        function exists() {
+        /**
+         * Check if file exists
+         * @return boolean
+         */
+        public function exists() {
             return file_exists( $this->path );
         }
 
-        function isReadable() {
+        /**
+         * Check if file is resable
+         * @return boolean
+         */
+        public function isReadable() {
             if($this->exists()) {
                 return is_readable($this->path);
             }
@@ -79,7 +153,11 @@ namespace qio {
             return false;
         }
 
-        function isWritable() {
+        /**
+         * Check if file is writable
+         * @return boolean
+         */
+        public function isWritable() {
             if($this->exists()) {
                 return is_writable($this->path);
             }
@@ -87,20 +165,33 @@ namespace qio {
             return false;
         }
 
-        function delete() {
+        /**
+         * Deletes file from filesystem
+         */
+        public function delete() {
             if($this->exists()) {
                 unlink($this->path);
             }
         }
 
-        function copy($path) {
+        /**
+         * Copy file to given path
+         * @param string $path
+         * @return \qio\File
+         */
+        public function copy($path) {
             if($this->exists()) {
                 copy($this->path, $path);
                 return new File($path, $this->getParent());
             }
         }
 
-        function move($path) {
+        /**
+         * Copy file then delete current file (move)
+         * @param string $path
+         * @return \qio\File
+         */
+        public function move($path) {
             if($this->exists()) {
                 $newfile = $this->copy($path);
                 $this->delete();
@@ -108,11 +199,19 @@ namespace qio {
             }
         }
 
-        function isLink() {
+        /**
+         * Check if file is link
+         * @return boolean
+         */
+        public function isLink() {
             return is_link($this->path);
         }
 
-        function getExtension() {
+        /**
+         * Retrieve extension from pathinfo
+         * @return string
+         */
+        public function getExtension() {
                 $info = $this->getPathInfo();
                 if(isset($info['extension'])) {
                     return $info['extension'];
@@ -120,7 +219,11 @@ namespace qio {
                 return '';
         }
 
-        function getDirectoryName() {
+        /**
+         * Retrieve directory name from pathinfo
+         * @return string
+         */
+        public function getDirectoryName() {
                 $info = $this->getPathInfo();
 
                 if(isset($info['dirname'])) {
@@ -130,15 +233,30 @@ namespace qio {
                 return DS;
         }
 
-        function getParent() {
+        /**
+         * Retrieve file directory
+         * @return \qio\Directory
+         */
+        public function getParent() {
             if(!$this->hasParent()) {
                 $this->setParent(new Directory($this->getDirectoryName()));
             }
-
-            return parent::getParent();
+            return $this->parent;
+        }
+        
+        /**
+         * Check if file has specified parent directory
+         * @return boolean
+         */
+        public function hasParent() {
+            return ($this->parent instanceof Directory) ? true : false;
         }
 
-        function getBaseName() {
+        /**
+         * Retrieve basename from pathinfo
+         * @return string
+         */
+        public function getBaseName() {
             $info = $this->getPathInfo();
             if(isset($info['basename'])) {
                 return $info['basename'];
@@ -147,7 +265,11 @@ namespace qio {
             return '';
         }
 
-        function getFileName() {
+        /**
+         * Retrieve filename from pathinfo
+         * @return string
+         */
+        public function getFileName() {
             $info = $this->getPathInfo();
             if(isset($info['filename'])) {
                 return $info['filename'];
@@ -156,43 +278,102 @@ namespace qio {
             return '';
         }
 
-        function getRealPath() {
-            return realpath( $this->path  );
+        /**
+         * Retrieve file realpath
+         * @return string
+         */
+        public function getRealPath() {
+            return realpath($this->path);
         }
 
-        function touch($time = null, $atime = null) {
+        /**
+         * Touch file to update last modified flag
+         * @param integer $time
+         * @param integer $atime
+         * @return boolean
+         */
+        public function touch($time = null, $atime = null) {
             return touch($this->path , $time, $atime);
         }
 
-        function getMode() {
+        /**
+         * Retrieve mode enum
+         * @return \qio\File\Permission
+         */
+        public function getMode() {
             return new File\Permission(fileperms($this->path));
         }
-
-        function setMode(File\Permission $mode) {
-            return chmod($this->path , $mode->value());
+        
+        /**
+         * Update files parent directory
+         * @param \qio\Directory $directory
+         */
+        public function setParent(Directory $directory) {
+            $this->parent = $directory;
         }
 
-        function getOwner() {
+        /**
+         * Update file mode
+         * @param \qio\File\Permission|integer $mode
+         * @return boolean
+         */
+        public function setMode($mode) {
+            if($mode instanceof File\Permission) {
+                $this->mode = $mode;
+                $mode = $mode->value();
+            } else {
+                $this->mode = new File\Permission($mode);
+            }
+            return chmod($this->path , $mode);
+        }
+
+        /**
+         * Retrieve file owner
+         * @return integer
+         */
+        public function getOwner() {
             return fileowner($this->path);
         }
 
-        function setOwner($user) {
+        /**
+         * Update file owner
+         * @param mixed $user
+         * @return boolean
+         */
+        public function setOwner($user) {
             return chown($this->path, $user);
         }
 
-        function getTime() {
+        /**
+         * Retrieve file last modified time
+         * @return integer
+         */
+        public function getTime() {
             return filemtime($this->path);
         }
 
-        function getGroup() {
+        /**
+         * Retrieve file group
+         * @return integer
+         */
+        public function getGroup() {
             return filegroup($this->path);
         }
 
-        function setGroup($group) {
+        /**
+         * Update file group
+         * @param mixed $group
+         * @return boolean
+         */
+        public function setGroup($group) {
             return chgrp($this->path ,$group);
         }
 
-        function getAccessTime() {
+        /**
+         * Retrieve last acces time of file
+         * @return integer
+         */
+        public function getAccessTime() {
             return fileatime($this->path);
         }
     }

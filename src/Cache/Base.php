@@ -78,7 +78,7 @@ namespace qio\Cache {
          * @param array $assets
          */
         public function setAssets(array $assets) {
-            $this->assets->exchangeArray($assets);
+            $this->assets->fromArray($assets);
         }
         
         /**
@@ -94,7 +94,7 @@ namespace qio\Cache {
          * @param array $rules
          */
         public function setRules(array $rules) {
-            $this->rules->exchangeArray($rules);
+            $this->rules->fromArray($rules);
         }
 
         /**
@@ -172,7 +172,7 @@ namespace qio\Cache {
             if(count($rules) > 0) {
                 foreach($rules as $rule) {
                     if(is_callable($rule)) {
-                        $rule->execute($this);
+                        $rule($this);
                     }
                 }
             }
@@ -199,7 +199,7 @@ namespace qio\Cache {
                 $offset = $this->hash($offset);
             }
 
-            $this->setState('has', $e = new observr\Event( $this,
+            $this->setState('has', $e = new Event( $this,
                                     ['path' => $offset])
                                 );
 
@@ -217,7 +217,6 @@ namespace qio\Cache {
          * @param mixed $value
          */
         public function offsetSet($offset,$value) {
-            $new = true;
             if( !$this->prefixed($offset) ) {
                 $offset = $this->prefix($offset);
             }
@@ -240,7 +239,7 @@ namespace qio\Cache {
             }
 
             if($new === true) {
-                $this->setState('save', $e = new observr\Event( $this,
+                $this->setState('save', $e = new Event( $this,
                                     ['path' => $offset,
                                      'value'=>$value])
                                 );
@@ -269,7 +268,7 @@ namespace qio\Cache {
             }
 
             $result = $this->load( $offset );
-            $this->setState('load', $e = new observr\Event( $this,
+            $this->setState('load', $e = new Event( $this,
                                     ['path' => $offset,
                                      'value'=>$result])
                                 );
@@ -296,7 +295,7 @@ namespace qio\Cache {
                 $offset = $this->hash($offset);
             }
 
-            $this->setState('delete', $e = new observr\EventArgs($this,
+            $this->setState('delete', $e = new EventArgs($this,
                                         ['path' => $offset])
                                     );
             

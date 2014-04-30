@@ -23,7 +23,7 @@ namespace qio\File {
 
         /**
          * Alias for getResource
-         * @return \qio\Resource
+         * @return \qio\File
          */
         function getFile() {
             return parent::getResource();

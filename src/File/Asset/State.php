@@ -7,21 +7,21 @@ namespace qio\File\Asset {
         
         /**
          * Stores local state cache
-         * @var \qio\Cache
+         * @var \qio\Directory\Cache
          */
         protected $cache;
         
         /**
          * Default file asset constructor
-         * @param \qio\Cache $cache
+         * @param \qio\Directory\Cache $cache
          */
-        function __construct(\qio\Cache $cache) {
+        function __construct(\qio\Directory\Cache $cache) {
             $this->cache = $cache;
         }
         
         /**
          * Retrieve file asset cache
-         * @return type
+         * @return \qio\Directory\Cache
          */
         function getCache() {
             return $this->cache;

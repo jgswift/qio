@@ -24,7 +24,7 @@ namespace qio\File {
         const Pipe = 0x1000;
         
         /**
-         * Helper function that generates standard string representation of permission flags
+         * Helper method that generates standard string representation of permission flags
          * @return string
          */
         function __toString() {
@@ -35,31 +35,71 @@ namespace qio\File {
             return $info;
         }
         
+        /**
+         * Helper method to generate permission string
+         * @return string
+         */
         private function getExtraString() {
+            $extra = '';
+            
+            $extra = $this->getUserExtraString();
+            
+            $extra.= $this->getGroupExtraString();
+            
+            $extra.= $this->getWorldExtraString();
+            
+            return $extra;
+        }
+        
+        /**
+         * Helper method to generate user permission string
+         * @return string
+         */
+        private function getUserExtraString() {
             $extra = '';
             $extra .= ($this->hasFlag(self::OwnerExecute) ? 'r' : '-');
             $extra .= ($this->hasFlag(0x0080) ? 'w' : '-');
             $extra .= ($this->hasFlag(0x0040) ?
                         ($this->hasFlag(0x0800) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0800) ? 'S' : '-'));
-
+            
+            return $extra;
+        }
+        
+        /**
+         * Helper method to generate group permission string
+         * @return string
+         */
+        private function getGroupExtraString() {
+            $extra = '';
             // Group
             $extra .= ($this->hasFlag(self::GroupWrite) ? 'r' : '-');
             $extra .= ($this->hasFlag(self::GroupExecute) ? 'w' : '-');
             $extra .= ($this->hasFlag(0x0008) ?
                         ($this->hasFlag(0x0400) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0400) ? 'S' : '-'));
-
+            return $extra;
+        }
+        
+        /**
+         * Helper method to generate world permission string
+         * @return string
+         */
+        private function getWorldExtraString() {
+            $extra = '';
             // World
             $extra .= ($this->hasFlag(self::WorldRead) ? 'r' : '-');
             $extra .= ($this->hasFlag(self::WorldWrite) ? 'w' : '-');
             $extra .= ($this->hasFlag(self::WorldExecute) ?
                         ($this->hasFlag(0x0200) ? 't' : 'x' ) :
                         ($this->hasFlag(0x0200) ? 'T' : '-'));
-            
             return $extra;
         }
         
+        /**
+         * Helper method to generate base permission type string
+         * @return string
+         */
         private function getBaseString() {
             if ($this->hasFlag(self::Socket)) {
                 // Socket

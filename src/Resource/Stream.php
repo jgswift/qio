@@ -166,6 +166,19 @@ namespace qio\Resource {
         function seek($offset = 0, $whence = SEEK_SET) {
             return fseek($this->pointer, $offset, $whence);
         }
+        
+        /**
+         * Truncates file to specified size
+         * @param integer $size
+         * @return boolean
+         */
+        function truncate($size) {
+            if(is_numeric($size)) {
+                return ftruncate($this->pointer,$size);
+            }
+            
+            return false;
+        }
 
         /**
          * Alias for rewind

@@ -105,7 +105,7 @@ namespace qio {
             
             while($info = $reader->read()) {
                 if($info instanceof File) {
-                    unlink($info->path);
+                    unlink($info->getPath());
                 } elseif($info instanceof Directory) {
                     $info->delete();
                 }

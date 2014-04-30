@@ -2,8 +2,7 @@
 namespace qio\File {
     use observr, qio;
     
-    class Upload
-    {
+    class Upload {
         use observr\Subject;
 
         private $files = [];
@@ -22,8 +21,6 @@ namespace qio\File {
          * @param array $constraints
          */
         function __construct($uploadDirectory = null, Upload\Factory $factory = null, Upload\State $state = null, array $constraints = []) {
-            $this->events = ['error'];
-
             if(!is_null($uploadDirectory)) {
                 $this->setUploadDirectory($uploadDirectory);
             }
@@ -63,7 +60,7 @@ namespace qio\File {
 
         /**
          * Update upload directory
-         * @param qio\Directory $uploadDirectory
+         * @param qio\Directory|string $uploadDirectory
          * @throws qio\Exception
          */
         function setUploadDirectory($uploadDirectory)  {
@@ -173,14 +170,13 @@ namespace qio\File {
         private function parse() {
             $input = \Kin::$input;
 
-            foreach($input->files as $field => $fileInfo)
-            {
+            foreach($input->files as $field => $fileInfo) {
                 $this->multiUpload = \is_array($fileInfo['name']);
                         
                 if($this->multiUpload) {
                     $this->build($field, $fileInfo);
                 } else {
-                    $this->files[$field] = $this->factory->getFile($field,$fileInfo);
+                    $this->files[$field] = $this->uploadFactory->getFile($field,$fileInfo);
                 }
             }
         }
@@ -194,7 +190,7 @@ namespace qio\File {
             $fileCount = count($files['name']);
 
             for($i = 0; $i < $fileCount; $i++) {
-                $this->files[$field.$i] = $this->factory->getFile($field,[
+                $this->files[$field.$i] = $this->uploadFactory->getFile($field,[
                     'name'      => $files['name'][$i],
                     'tmp_name'  => $files['tmp_name'][$i],
                     'type'      => $files['type'][$i],
@@ -225,7 +221,7 @@ namespace qio\File {
          * @param type $uploadTargetCallback
          */
         function save($uploadTargetCallback = null) {
-            $this->state->save($uploadTargetCallback);
+            $this->uploadState->save($uploadTargetCallback);
         }
 
         /**

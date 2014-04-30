@@ -27,13 +27,15 @@ namespace qio\Directory {
          * @param array $assets
          */
         public function __construct($directory, $destination, array $params = [], array $rules = [], array $assets = []) {
-            if(is_dir($directory)) {
+            if(is_string($directory) && 
+               is_dir($directory)) {
                 $this->source = new \qio\Directory($directory);
             } elseif($directory instanceof \qio\Directory) {
                 $this->source = $directory;
             }
             
-            if(is_dir($destination)) {
+            if(is_string($destination) &&
+               is_dir($destination)) {
                 $this->destination = new \qio\Directory($destination);
             } elseif($directory instanceof \qio\Directory) {
                 $this->destination = $destination;

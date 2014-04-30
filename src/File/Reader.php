@@ -13,10 +13,8 @@ namespace qio\File {
                 $length = (int)$length;
             }
 
-            $this->buffer = fread($this->stream->getPointer(),
+            return fread($this->stream->getPointer(),
                                   $length);
-
-            return $this->buffer;
         }
 
         /**
