@@ -305,7 +305,7 @@ namespace qio\Resource {
          */
         public function setBlocking($blocking)
         {
-            $blocking = (bool)$blocking;
+            $blocking = (integer)$blocking;
             if($this->isOpen()) {
                 stream_set_blocking($this->pointer, $blocking);
             }
