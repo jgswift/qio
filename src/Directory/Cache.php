@@ -8,13 +8,13 @@ namespace qio\Directory {
     class Cache extends qio\Cache\Base {
         /**
          * Stores main source
-         * @var string|\qio\Directory
+         * @var \qio\Directory
          */
         protected $source;
         
         /**
          * Stores cache destination
-         * @var string|\qio\Directory
+         * @var \qio\Directory
          */
         protected $destination;
         

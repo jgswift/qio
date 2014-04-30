@@ -40,8 +40,6 @@ namespace qio\File {
          * @return string
          */
         private function getExtraString() {
-            $extra = '';
-            
             $extra = $this->getUserExtraString();
             
             $extra.= $this->getGroupExtraString();
@@ -56,10 +54,9 @@ namespace qio\File {
          * @return string
          */
         private function getUserExtraString() {
-            $extra = '';
-            $extra .= ($this->hasFlag(self::OwnerExecute) ? 'r' : '-');
-            $extra .= ($this->hasFlag(0x0080) ? 'w' : '-');
-            $extra .= ($this->hasFlag(0x0040) ?
+            $extra = ($this->hasFlag(self::OwnerExecute) ? 'r' : '-');
+            $extra.= ($this->hasFlag(0x0080) ? 'w' : '-');
+            $extra.= ($this->hasFlag(0x0040) ?
                         ($this->hasFlag(0x0800) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0800) ? 'S' : '-'));
             
@@ -71,11 +68,10 @@ namespace qio\File {
          * @return string
          */
         private function getGroupExtraString() {
-            $extra = '';
             // Group
-            $extra .= ($this->hasFlag(self::GroupWrite) ? 'r' : '-');
-            $extra .= ($this->hasFlag(self::GroupExecute) ? 'w' : '-');
-            $extra .= ($this->hasFlag(0x0008) ?
+            $extra = ($this->hasFlag(self::GroupWrite) ? 'r' : '-');
+            $extra.= ($this->hasFlag(self::GroupExecute) ? 'w' : '-');
+            $extra.= ($this->hasFlag(0x0008) ?
                         ($this->hasFlag(0x0400) ? 's' : 'x' ) :
                         ($this->hasFlag(0x0400) ? 'S' : '-'));
             return $extra;
@@ -86,9 +82,8 @@ namespace qio\File {
          * @return string
          */
         private function getWorldExtraString() {
-            $extra = '';
             // World
-            $extra .= ($this->hasFlag(self::WorldRead) ? 'r' : '-');
+            $extra = ($this->hasFlag(self::WorldRead) ? 'r' : '-');
             $extra .= ($this->hasFlag(self::WorldWrite) ? 'w' : '-');
             $extra .= ($this->hasFlag(self::WorldExecute) ?
                         ($this->hasFlag(0x0200) ? 't' : 'x' ) :

@@ -10,7 +10,7 @@ namespace qio {
         
         /**
          * Stores file parent directory
-         * @var type 
+         * @var \qio\Directory 
          */
         protected $parent;
         
@@ -25,6 +25,12 @@ namespace qio {
          * @var array 
          */
         protected $pathinfo;
+        
+        /**
+         * Stores permissions
+         * @var \qio\File\Permission
+         */
+        protected $mode;
         
         /**
          * Default file constructor
@@ -301,7 +307,10 @@ namespace qio {
          * @return \qio\File\Permission
          */
         public function getMode() {
-            return new File\Permission(fileperms($this->path));
+            if(isset($this->mode)) {
+                return $this->mode;
+            }
+            return $this->mode = new File\Permission(fileperms($this->path));
         }
         
         /**
