@@ -1,6 +1,7 @@
 <?php
 namespace qio\Stream {
-    use observr, qio;
+    use observr;
+    use qio;
     
     abstract class Base implements \qio\Stream {
         use observr\Subject;

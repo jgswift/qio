@@ -62,8 +62,8 @@ namespace qio\Directory {
 
         /**
          * Checks if key exists in source
-         * @param type $name
-         * @return type
+         * @param string $name
+         * @return boolean
          */
         function has($name) {
             $path = $this->getPath($name);
@@ -73,8 +73,8 @@ namespace qio\Directory {
 
         /**
          * load data from source
-         * @param type $name
-         * @return type
+         * @param string $name
+         * @return string
          */
         function load($name) {
             $stream = $this->getStream($name);

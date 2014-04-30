@@ -1,6 +1,7 @@
 <?php
 namespace qio\File {
-    use observr, qio;
+    use observr;
+    use qio;
     
     class Upload {
         use observr\Subject;
@@ -149,7 +150,7 @@ namespace qio\File {
 
         /**
          * Retrieve total upload size
-         * @return type
+         * @return integer
          */
         function getSize() {
             return $this->size();

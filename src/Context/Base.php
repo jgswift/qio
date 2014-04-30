@@ -1,6 +1,8 @@
 <?php
 namespace qio\Context {
-    use qtil,observr,kenum;
+    use qtil;
+    use observr;
+    use kenum;
     
     abstract class Base extends kenum\Enum\Base implements \qio\Context {
         use qtil\ArrayAccess;

@@ -3,6 +3,7 @@ namespace qio {
     interface Resource {
         /**
          * All resources must provide a path
+         * @return string
          */
         function getPath();
         

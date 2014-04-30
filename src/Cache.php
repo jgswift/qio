@@ -14,21 +14,25 @@ namespace qio {
         
         /**
          * Retrieve all cache assets
+         * @return array
          */
         public function getAssets();
         
         /**
          * Updates all cache assets
+         * @return array
          */
         public function setAssets(array $assets);
         
         /**
          * Retrieves current cache rules
+         * @return array
          */
         public function getRules();
         
         /**
          * Updates current cache rules
+         * @return array
          */
         public function setRules(array $rules);
 
@@ -48,22 +52,26 @@ namespace qio {
         
         /**
          * Checks if cache rules are enabled
+         * @return boolean
          */
         public function isEnabled();
 
         /**
          * enable rules
+         * @return Cache\Base
          */
         public function enable();
 
         /**
          * disable rules
+         * @return Cache\Base
          */
         public function disable();
 
         /**
          * executes all rules, enabling them
          * @param array $rules
+         * @reurn Cache\Base
          */
         public function applyRules(array $rules = []);
 

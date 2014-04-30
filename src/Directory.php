@@ -70,7 +70,7 @@ namespace qio {
         /**
          * Creates directory
          * Alias for mkdir
-         * @return type
+         * @return boolean
          */
         function create() {
             return mkdir($this->path);
@@ -91,7 +91,7 @@ namespace qio {
 
         /**
          * Recursively deletes folder contents
-         * @return boolean
+         * @return boolean|null
          */
         function delete() {
             if(!$this->exists()) {
@@ -117,7 +117,7 @@ namespace qio {
 
         /**
          * Alias for basename
-         * @return type
+         * @return string
          */
         function getBaseName() {
             return basename($this->path);

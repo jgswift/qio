@@ -73,7 +73,7 @@ namespace qio\Resource {
 
         /**
          * Update local stream resource
-         * @param qio\Resource $file
+         * @param qio\Resource $resource
          * @return qio\Resource
          */
         function setResource(qio\Resource $resource) {
@@ -305,9 +305,9 @@ namespace qio\Resource {
          */
         public function setBlocking($blocking)
         {
-            $blocking = (integer)$blocking;
+            $blocking = $blocking;
             if($this->isOpen()) {
-                stream_set_blocking($this->pointer, $blocking);
+                stream_set_blocking($this->pointer, (integer)$blocking);
             }
             
             return $blocking;

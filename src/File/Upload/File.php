@@ -29,6 +29,10 @@ namespace qio\File\Upload {
             return $this->originalName;
         }
 
+        /**
+         * 
+         * @param string $temporaryName
+         */
         public function setTemporaryName($temporaryName) {
             $this->temporaryName = $temporaryName;
         }
@@ -45,10 +49,18 @@ namespace qio\File\Upload {
             $this->setTemporaryName($path);
         }
 
+        /**
+         * 
+         * @param string $field
+         */
         public function setFieldName($field) {
             $this->fieldName = $field;
         }
 
+        /**
+         * 
+         * @return string
+         */
         public function getFieldName() {
             return $this->fieldName;
         }

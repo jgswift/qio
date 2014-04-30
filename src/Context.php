@@ -13,6 +13,7 @@ namespace qio {
          * Default constructor for IO context
          * @param array $options
          * @param array $params
+         * @return void
          */
         function __construct(array $options = [],array $params = []);
 

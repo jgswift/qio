@@ -1,9 +1,11 @@
 <?php
 namespace qio\Cache {
-    use qtil, kfiltr, observr, qio;
+    use qtil;
+    use kfiltr;
+    use observr;
+    use qio;
     
-    abstract class Base implements qio\Cache
-    {
+    abstract class Base implements qio\Cache {
         use observr\Subject, kfiltr\Hook;
 
         /**
@@ -137,7 +139,7 @@ namespace qio\Cache {
 
         /**
          * enable rules
-         * @return \IO\Cache
+         * @return Base
          */
         public function enable() {
             $this->applyRules();
@@ -147,7 +149,7 @@ namespace qio\Cache {
 
         /**
          * disable rules
-         * @return \IO\Cache
+         * @return Base
          */
         public function disable() {
             $this->enabled = false;
@@ -162,7 +164,7 @@ namespace qio\Cache {
         /**
          * executes all rules, enabling them
          * @param array $rules
-         * @return \IO\Cache
+         * @return Base
          */
         public function applyRules(array $rules = []) {
             if(!empty($rules)) {
@@ -205,7 +207,7 @@ namespace qio\Cache {
 
             if( !$e->canceled )
             {
-                return $this->has($offset);
+                return (boolean)$this->has($offset);
             }
 
             return false;
