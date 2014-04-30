@@ -9,7 +9,7 @@ namespace qio\File\Upload {
          * Constructor for uploader utilty state
          * @param \qio\Upload $uploader
          */
-        function __construct(\qio\Upload $uploader) {
+        public function __construct(\qio\Upload $uploader) {
             $this->uploader = $uploader;
         }
         
@@ -21,9 +21,7 @@ namespace qio\File\Upload {
          */
         protected function saveFile(Upload\File $file, $uploadDirectory = null) {
             if($file->getErrorCode() !== ExceptionMode::OK) {
-                $file->setUploaded(false);
-                $this->uploader->setState('error', new observr\Event($this->uploader, ['message' => $file->getErrorMessage()]));
-                return false;
+                return $this->error($file, $file->getErrorMessage());
             }
 
             $oldDirectory = $this->uploader->getUploadDirectory();
@@ -32,10 +30,7 @@ namespace qio\File\Upload {
                 try {
                     $this->uploader->setUploadDirectory($uploadDirectory);
                 } catch(\InvalidArgumentException $e) {
-                    
-                    $file->setUploaded(false);
-                    $this->uploader->setState('error', new observr\Event($this->uploader, ['message' => $e->getMessage()]));
-                    
+                    $this->error($file, $e->getMessage());
                 } finally {
                     $this->uploader->forceUploadDirectory($oldDirectory);
                     
@@ -47,9 +42,8 @@ namespace qio\File\Upload {
 
             if($e->canceled) {
                 $this->uploader->forceUploadDirectory($oldDirectory);
-                $file->setUploaded(false);
-                $this->uploader->setState('error', new observr\Event($this, ['message' => 'File upload constraint not valid']));
-                return false;
+                
+                return $this->error($file,'File upload constraint not valid');
             }
 
             $path = $this->uploader->getUploadDirectory() . $file->getFileName().'.'.$file->getExtension();
@@ -62,10 +56,21 @@ namespace qio\File\Upload {
                 $file->setUploaded(true);
                 return true;
             } else {
-                $this->uploader->setState('error', new observr\Event($this, ['message' => 'Unable to move file']));
-                $file->setUploaded(false);
-                return false;
+                return $this->error($file,'Unable to move file');
             }
+        }
+        
+        /**
+         * Helper method deduplicating error handling
+         * @param \qio\File\Upload\File $file
+         * @param string $message
+         * @return boolean always false
+         */
+        public function error($file, $message) {
+            $file->setUploaded(false);
+            $this->uploader->setState('error', new observr\Event($this, ['message' => $message]));
+            
+            return false;
         }
 
         /**
@@ -73,7 +78,7 @@ namespace qio\File\Upload {
          * @param callable $uploadTargetCallback
          * @return boolean
          */
-        function save($uploadTargetCallback = null) {
+        public function save($uploadTargetCallback = null) {
             $uploadDir = null;
             $success = true;
 
