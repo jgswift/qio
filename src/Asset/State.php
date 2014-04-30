@@ -6,11 +6,6 @@ namespace qio\Asset {
      */
     interface State {
         /**
-         * Default constructor signature for asset state
-         */
-        function __construct(\qio\Cache $cache);
-        
-        /**
          * Retrieve asset cache
          */
         function getCache();
