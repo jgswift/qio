@@ -3,6 +3,7 @@ qio
 PHP 5.5+ I/O utility package 
 
 [![Build Status](https://travis-ci.org/jgswift/qio.png?branch=master)](https://travis-ci.org/jgswift/qio)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jgswift/qio/badges/quality-score.png?s=ccb4e11e7fee14345782e105875289cf6c42f5d4)](https://scrutinizer-ci.com/g/jgswift/qio/)
 
 ## Installation
 
