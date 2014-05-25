@@ -1,6 +1,7 @@
 <?php
 namespace qio\Directory {
     use qio;
+    use qtil;
     
     /**
      * This class allows you to keep 2 directories synchronized according to customizable rules
@@ -29,15 +30,15 @@ namespace qio\Directory {
         public function __construct($directory, $destination, array $params = [], array $rules = [], array $assets = []) {
             if(is_string($directory) && 
                is_dir($directory)) {
-                $this->source = new \qio\Directory($directory);
-            } elseif($directory instanceof \qio\Directory) {
+                $this->source = new qio\Directory($directory);
+            } elseif($directory instanceof qio\Directory) {
                 $this->source = $directory;
             }
             
             if(is_string($destination) &&
                is_dir($destination)) {
-                $this->destination = new \qio\Directory($destination);
-            } elseif($directory instanceof \qio\Directory) {
+                $this->destination = new qio\Directory($destination);
+            } elseif($directory instanceof qio\Directory) {
                 $this->destination = $destination;
             }
             
@@ -78,7 +79,7 @@ namespace qio\Directory {
          */
         function load($name) {
             $stream = $this->getStream($name);
-            $reader = new \qio\File\Reader($stream);
+            $reader = new qio\File\Reader($stream);
 
             $stream->open();
             $contents = $reader->readAll();
@@ -97,8 +98,8 @@ namespace qio\Directory {
                 $value = (string)$value;
             }
 
-            $stream = $this->getStream($name , \IO\Stream\Mode::Write );
-            $writer = new \qio\File\Writer( $stream );
+            $stream = $this->getStream($name , qio\Stream\Mode::Write );
+            $writer = new qio\File\Writer( $stream );
 
             $stream->open();
 
@@ -152,7 +153,7 @@ namespace qio\Directory {
          * @param string $mode
          * @return \qio\File\Stream
          */
-        protected function getStream($name, $mode = \IO\Stream\Mode::Read)
+        protected function getStream($name, $mode = qio\Stream\Mode::Read)
         {
             return new \qio\File\Stream($this->getPath($name), $mode);
         }
@@ -162,8 +163,8 @@ namespace qio\Directory {
          * @param \qio\Asset $asset
          * @return \qio\File\Asset
          */
-        public function getTarget(\qio\Asset $asset) {
-            $path = str_replace('\\',DIRECTORY_SEPARATOR,$asset->getPath());
+        public function getTarget(qio\Asset $asset) {
+            $path = qtil\StringUtil::flipDS($asset->getPath());
             $nfo = pathinfo($path);
 
             $basename = $nfo['basename'];
