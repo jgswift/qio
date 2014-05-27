@@ -6,7 +6,7 @@ namespace qio\Directory {
     /**
      * This class allows you to keep 2 directories synchronized according to customizable rules
      */
-    class Cache extends qio\Cache\Base {
+    class Cache extends qio\Asset\Cache {
         /**
          * Stores main source
          * @var \qio\Directory
@@ -23,11 +23,10 @@ namespace qio\Directory {
          * Constructor for directory cache,
          * @param \qio\Directory|string $directory
          * @param \qio\Directory|string $destination
-         * @param array $params
          * @param array $rules
          * @param array $assets
          */
-        public function __construct($directory, $destination, array $params = [], array $rules = [], array $assets = []) {
+        public function __construct($directory, $destination, $hash = false, $prefix = '',array $rules = [], array $assets = []) {
             if(is_string($directory) && 
                is_dir($directory)) {
                 $this->source = new qio\Directory($directory);
@@ -42,7 +41,7 @@ namespace qio\Directory {
                 $this->destination = $destination;
             }
             
-            parent::__construct($params, $rules, $assets);
+            parent::__construct($hash, $prefix, $rules, $assets);
         }
         
         /**
@@ -79,13 +78,14 @@ namespace qio\Directory {
          */
         function load($name) {
             $stream = $this->getStream($name);
-            $reader = new qio\File\Reader($stream);
+            $filereader = new qio\File\Reader($stream);
+            $reader = new qio\Object\Serial\Reader($filereader);
 
             $stream->open();
-            $contents = $reader->readAll();
+            $buffer = $reader->readObject();
             $stream->close();
 
-            return $contents;
+            return $buffer;
         }
 
         /**
@@ -98,12 +98,13 @@ namespace qio\Directory {
                 $value = (string)$value;
             }
 
-            $stream = $this->getStream($name , qio\Stream\Mode::Write );
-            $writer = new qio\File\Writer( $stream );
-
+            $stream = $this->getStream($name, qio\Stream\Mode::ReadWriteTruncate);
+            $filewriter = new qio\File\Writer($stream);
+            $writer = new qio\Object\Serial\Writer($filewriter);
+            
             $stream->open();
 
-            $writer->write( $value );
+            $writer->writeObject($value);
 
             $stream->close();
         }
@@ -125,8 +126,7 @@ namespace qio\Directory {
          * @param string $path
          * @return string
          */
-        public function getPath($path)
-        {
+        public function getPath($path) {
             $path = str_replace('\\',DIRECTORY_SEPARATOR,$path);
             $nfo = pathinfo($path);
 
@@ -153,8 +153,7 @@ namespace qio\Directory {
          * @param string $mode
          * @return \qio\File\Stream
          */
-        protected function getStream($name, $mode = qio\Stream\Mode::Read)
-        {
+        protected function getStream($name, $mode = qio\Stream\Mode::Read) {
             return new \qio\File\Stream($this->getPath($name), $mode);
         }
 

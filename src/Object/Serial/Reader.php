@@ -2,8 +2,7 @@
 namespace qio\Object\Serial {
     use qio;
     
-    class Reader extends qio\Stream\Reader
-    {
+    class Reader extends qio\Stream\Reader {
         /**
          * Alias for unserialize
          * @param string $str
