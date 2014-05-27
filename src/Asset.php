@@ -7,7 +7,7 @@ namespace qio {
          * @param string $sourcePath
          * @return void
          */
-        function __construct(Cache $cache, $sourcePath = null);
+        function __construct($cache, $sourcePath = null);
 
         /**
          * Retrieves asset caching mechanism

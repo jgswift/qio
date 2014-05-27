@@ -1,6 +1,13 @@
 <?php
 namespace qio\Asset {
+    use qio;
+    
     abstract class Base implements \qio\Asset {
+        
+        /**
+         * Stores asset cache
+         * @var qio\Asset\Cache 
+         */
         protected $cache;
         protected $content;
         protected $sourcePath;
@@ -12,16 +19,19 @@ namespace qio\Asset {
          * @param \qio\Cache $cache
          * @param string $sourcePath
          */
-        public function __construct(\qio\Cache $cache, $sourcePath = null) {
-            $this->cache = $cache;
-            $this->sourceRoot = new \qio\Directory(dirname($sourcePath));
+        public function __construct($cache, $sourcePath = null) {
+            if(!($cache instanceof qio\Asset\Cache)) {
+                $this->cache = $cache;
+            }
+            
+            $this->sourceRoot = new qio\Directory(dirname($sourcePath));
             
             $this->setPath($sourcePath);
         }
         
         /**
          * Retrieve cache
-         * @return \qio\Cache
+         * @return \qio\Asset\Cache
          */
         public function getCache() {
             return $this->cache;
@@ -44,7 +54,7 @@ namespace qio\Asset {
         }
 
         /**
-         * Alias for \qio\Cache::addFilter
+         * Alias for qio\Asset\Cache::addFilter
          * @param mixed $filter
          * @return \qio\Asset\Base
          */
@@ -55,7 +65,7 @@ namespace qio\Asset {
         }
 
         /**
-         * Alias for \qio\Cache::removeFilter
+         * Alias for qio\Asset\Cache::removeFilter
          * @param mixed $filter
          * @return \qio\Asset\Base
          */
@@ -66,7 +76,7 @@ namespace qio\Asset {
         }
 
         /**
-         * Alias for \qio\Cache::setFilters
+         * Alias for qio\Asset\Cache::setFilters
          * @param array $filters
          * @return \qio\Asset\Base
          */
@@ -77,7 +87,7 @@ namespace qio\Asset {
         }
         
         /**
-         * Alias for \qio\Cache::clearFilters
+         * Alias for qio\Asset\Cache::clearFilters
          */
         public function clearFilters() {
             $this->cache->clearFilters();
