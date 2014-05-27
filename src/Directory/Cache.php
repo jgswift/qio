@@ -82,7 +82,7 @@ namespace qio\Directory {
             $reader = new qio\Object\Serial\Reader($filereader);
 
             $stream->open();
-            $buffer = $reader->readObject();
+            $buffer = $reader->read();
             $stream->close();
 
             return $buffer;
@@ -104,7 +104,7 @@ namespace qio\Directory {
             
             $stream->open();
 
-            $writer->writeObject($value);
+            $writer->write($value);
 
             $stream->close();
         }

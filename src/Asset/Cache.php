@@ -181,19 +181,29 @@ namespace qio\Asset {
 
             return $this;
         }
+        
+        protected function checkNew($offset) {
+            $new = true;
+            
+            if($this->has($offset) || 
+               parent::offsetExists($offset)) {
+                $new = false;
+            }
+            
+            return $new;
+        }
 
         /**
          * 
          * @param string $offset
          * @return boolean
          */
-        function offsetExists($offset)
-        {
+        public function offsetExists($offset) {
             if(!$this->prefixed($offset)) {
                 $offset = $this->prefix($offset);
             }
             
-            if(isset($this->data[$offset])) {
+            if(parent::offsetExists($offset)) {
                 return true;
             }
 
@@ -218,22 +228,13 @@ namespace qio\Asset {
          * @param mixed $value
          */
         public function offsetSet($offset,$value) {
-            if( !$this->prefixed($offset) ) {
+            if(!$this->prefixed($offset)) {
                 $offset = $this->prefix($offset);
             }
 
-            if($this->has($offset) || isset($this->data[$offset])) {
-                $new = false;
-            } else {
-                $new = true;
+            $new = $this->checkNew($offset);
 
-                if(is_object($value) &&
-                   in_array($value, (array)$this, true)) {
-                    $new = false;
-                }
-            }
-
-            $this->data[$offset] = $value;
+            parent::offsetSet($offset, $value);
 
             if($this->hash !== false) {
                 $offset = $this->hash($offset);
@@ -260,8 +261,8 @@ namespace qio\Asset {
                 $offset = $this->prefix($offset);
             }
 
-            if(isset($this->data[$offset])) {
-                return $this->data[$offset];
+            if(parent::offsetExists($offset)) {
+                return parent::offsetGet($offset);
             }
 
             if($this->hash !== false) {
@@ -288,8 +289,8 @@ namespace qio\Asset {
                 $offset = $this->prefix($offset);
             }
 
-            if(isset($this->data[$offset])) {
-                unset($this->data[$offset]);
+            if(parent::offsetExists($offset)) {
+                parent::offsetUnset($offset);
             }
 
             if($this->hash !== false) {
@@ -310,7 +311,7 @@ namespace qio\Asset {
          * @param string $offset
          * @return string
          */
-        function hash($offset) {
+        public function hash($offset) {
             if(!$this->prefixed($offset)) {
                 $offset = $this->prefix($offset);
             }
