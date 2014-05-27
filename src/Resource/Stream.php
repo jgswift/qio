@@ -3,6 +3,7 @@ namespace qio\Resource {
     use qio;
     
     abstract class Stream extends qio\Stream\Base {
+        
         /**
          * Stores stream resource
          * @var resource
@@ -270,7 +271,7 @@ namespace qio\Resource {
                 $callback = [$this,'defaultNotificationCallback'];
             }
             
-            $this->context->parameters->insert('notification',$callback);
+            $this->context->getParameters()->insert('notification',$callback);
         }
     }
 }

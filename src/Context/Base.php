@@ -5,7 +5,7 @@ namespace qio\Context {
     use kenum;
     
     abstract class Base extends kenum\Enum\Base implements \qio\Context {
-        use qtil\ArrayAccess;
+        use qtil\ArrayAccess, qtil\Countable;
         
         const CURL = 'curl';
         const FTP = 'ftp';
@@ -25,13 +25,7 @@ namespace qio\Context {
          * Stores context data
          * @var \observr\Collection 
          */
-        protected $data;
-        
-        /**
-         * Alias for data
-         * @var \observr\Collection
-         */
-        public $parameters;
+        public $data;
         
         /**
          * Default constructor for IO context
@@ -41,7 +35,22 @@ namespace qio\Context {
         function __construct(array $options = [],array $params = []) {
             $this->options = new observr\Collection($options);
             $this->data = new observr\Collection($params);
-            $this->parameters = &$this->data;
+        }
+        
+        /**
+         * retrieve context parameters
+         * @return \observr\Collection
+         */
+        public function getParameters() {
+            return $this->data;
+        }
+        
+        /**
+         * retrieve context options
+         * @return \observr\Collection
+         */
+        public function getOptions() {
+            return $this->options;
         }
     }
 }

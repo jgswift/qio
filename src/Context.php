@@ -28,6 +28,18 @@ namespace qio {
          * @return boolean
          */
         function isCreated();
+        
+        /**
+         * Retrieve context parameters
+         * @return \qtil\Collection
+         */
+        function getParameters();
+        
+        /**
+         * Retrieve option parameters
+         * @return \qtil\Collection
+         */
+        function getOptions();
     }
 }
 
