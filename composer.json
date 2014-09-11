@@ -14,10 +14,10 @@
     ],    
     "require": {
         "php": ">=5.5",
-        "jgswift/qtil": "dev-master",
-        "jgswift/kfiltr": "dev-master",
-        "jgswift/observr": "dev-master",
-        "jgswift/kenum": "dev-master"
+        "jgswift/qtil": "0.1.*",
+        "jgswift/kfiltr": "0.1.*",
+        "jgswift/observr": "0.1.*",
+        "jgswift/kenum": "0.1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
