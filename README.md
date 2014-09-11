@@ -34,6 +34,10 @@ supplemental implementations for bitwise streaming, directory caching, file uplo
 ## Dependency
 
 * php 5.5+
+* [jgswift/qtil](http://github.com/jgswift/qtil) - general utility library
+* [jgswift/kfiltr](http://github.com/jgswift/kfiltr) - filter, map, and hook implementation
+* [jgswift/observr](http://github.com/jgswift/observr) - observer pattern implementation
+* [jgswift/kenum](http://github.com/jgswift/kenum) - enumerator implementation
 
 ## Usage
 
