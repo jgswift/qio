@@ -174,9 +174,11 @@ var_dump($user); // User#object { "name" => "test" }
 Pipe reads input data from a source stream and writes it to an output stream automatically
 
 ```php
-$file = new qio\File('myfile.txt');
+$myfile = new qio\File('myfile.txt');
+$otherfile = new qio\File('otherfile.txt');
+
 $source = new qio\File\Stream($file,qio\Stream\Mode::Read);
-$target = new qio\File\Stream($file,qio\Stream\Mode::ReadWriteTruncate);
+$target = new qio\File\Stream($otherfile,qio\Stream\Mode::ReadWriteTruncate);
 
 $reader = new qio\File\Reader($source);
 $writer = new qio\File\Writer($target);

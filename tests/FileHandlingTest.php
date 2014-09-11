@@ -53,10 +53,13 @@ namespace qio\Tests {
             $this->assertEquals('test',$value);
         }
         
-        function testReadWritePipe() {         
+        function testReadWritePipe() {
+            $original_value = file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'mockfile.txt');
             $file = new \qio\File(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'mockfile.txt');
+            $file2 = new \qio\File(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'mockfile2.txt');
+            
             $source = new \qio\File\Stream($file,\qio\Stream\Mode::Read);
-            $target = new \qio\File\Stream($file,\qio\Stream\Mode::ReadWriteTruncate);
+            $target = new \qio\File\Stream($file2,\qio\Stream\Mode::ReadWriteTruncate);
             
             $reader = new \qio\File\Reader($source);
             $writer = new \qio\File\Writer($target);
@@ -68,6 +71,10 @@ namespace qio\Tests {
             
             $source->close();
             $target->close();
+            
+            $new_value = file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'mockfile2.txt');
+            
+            $this->assertEquals($original_value,$new_value);
         }
         
         function testFilePermissions() {
