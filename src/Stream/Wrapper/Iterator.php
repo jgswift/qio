@@ -18,7 +18,7 @@ namespace qio\Stream\Wrapper {
         
         /**
          * Filters
-         * @var array 
+         * @var qtil\Collection 
          */
         public $filters;
         

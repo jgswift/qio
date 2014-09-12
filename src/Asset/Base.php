@@ -20,9 +20,7 @@ namespace qio\Asset {
          * @param string $sourcePath
          */
         public function __construct($cache, $sourcePath = null) {
-            if(!($cache instanceof qio\Asset\Cache)) {
-                $this->cache = $cache;
-            }
+            $this->cache = $cache;
             
             $this->sourceRoot = new qio\Directory(dirname($sourcePath));
             

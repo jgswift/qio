@@ -2,7 +2,7 @@
 namespace qio\Stream {
     use qio;
     
-    class Context extends qio\Context {
+    class Context extends qio\Context\Base {
         
         /**
          * Stores context resource

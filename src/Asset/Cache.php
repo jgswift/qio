@@ -42,7 +42,7 @@ namespace qio\Asset {
         
         /**
          * Whether cache hashes keys
-         * @var boolean
+         * @var callable|boolean
          */
         protected $hash = false;
 

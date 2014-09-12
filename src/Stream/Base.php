@@ -32,7 +32,7 @@ namespace qio\Stream {
         
         /**
          * Default stream constructor
-         * @param resource $pointer
+         * @param resource|qio\Resource $pointer
          * @param string $encoding
          * @param integer $timeout
          * @param \qio\Context $context
@@ -173,7 +173,7 @@ namespace qio\Stream {
 
         /**
          * Retrieve stream encoding
-         * @return \qio\Stream\Stream\Encoding
+         * @return \qio\Stream\Encoding
          */
         public function getEncoding() {
             if(is_null($this->encoding)) {
@@ -185,8 +185,8 @@ namespace qio\Stream {
 
         /**
          * Update stream encoding
-         * @param \qio\Stream\Stream\Encoding|string $encoding
-         * @return \qio\Stream\Stream\Encoding
+         * @param \qio\Stream\Encoding|string $encoding
+         * @return \qio\Stream\Encoding
          */
         public function setEncoding($encoding) {
             if(is_string($encoding)) {

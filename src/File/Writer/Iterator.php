@@ -36,7 +36,7 @@ namespace qio\File\Writer {
          * @param mixed $input
          */
         public function setInput($input) {
-            if(!is_array($input) && !($input instanceof \Countable)) {
+            if(!is_array($input) && !($input instanceof \Traversable)) {
                 $input = [$input];
             }
             

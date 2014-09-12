@@ -6,7 +6,7 @@ namespace qio\Resource {
         
         /**
          * Stores stream resource
-         * @var resource
+         * @var qio\Resource|resource
          */
         protected $resource;
         
@@ -24,7 +24,7 @@ namespace qio\Resource {
 
         /**
          * constructor for resource stream
-         * @param qio\Resource $resource
+         * @param resource|qio\Resource $resource
          * @param string $mode
          * @param qio\Context $context
          */

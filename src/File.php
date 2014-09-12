@@ -133,7 +133,7 @@ namespace qio {
          */
         public function setSize($size) {
             if(is_numeric($size)) {
-                $this->size = $size;
+                $this->size = (int)$size;
             } else  {
                 throw new \InvalidArgumentException('The given size is not a number');
             }

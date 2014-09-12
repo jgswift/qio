@@ -1,10 +1,11 @@
 <?php
 namespace qio\Context {
+    use qio;
     use qtil;
     use observr;
     use kenum;
     
-    abstract class Base extends kenum\Enum\Base implements \qio\Context {
+    abstract class Base extends kenum\Enum\Base implements qio\Context {
         use qtil\ArrayAccess, qtil\Countable;
         
         const CURL = 'curl';
@@ -32,7 +33,8 @@ namespace qio\Context {
          * @param array $options
          * @param array $params
          */
-        function __construct(array $options = [],array $params = []) {
+        function __construct(array $options = [], array $params = []) {
+            parent::__construct();
             $this->options = new observr\Collection($options);
             $this->data = new observr\Collection($params);
         }
