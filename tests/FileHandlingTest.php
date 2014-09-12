@@ -110,5 +110,29 @@ namespace qio\Tests {
             }
             $stream->close();
         }
+        
+        function testSizeView() {
+            $file = new \qio\File(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'image.jpg');
+            
+            $size = $file->getSizeString();
+            
+            $this->assertEquals('7.76 Kb',$size);
+            
+            $size = $file->getSizeString(\qio\File\SizeView::Binary);
+            
+            $this->assertEquals('7.58 KB',$size);
+        }
+        
+        function testFileTouch() {
+            $file = new \qio\File(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'image.jpg');
+            
+            $time1 = $file->getTime();
+            
+            $file->touch();
+            
+            $time2 = $file->getTime();
+            
+            $this->assertNotEquals($time1,$time2);
+        }
     }
 }

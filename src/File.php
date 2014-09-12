@@ -293,13 +293,45 @@ namespace qio {
         }
 
         /**
-         * Touch file to update last modified flag
+         * Touches file to update last modified and/or last access time
          * @param integer $time
          * @param integer $atime
          * @return boolean
          */
         public function touch($time = null, $atime = null) {
-            return touch($this->path , $time, $atime);
+            if(is_null($time)) {
+                $time = time();
+            }
+            
+            $touch = touch($this->path , $time, $atime);
+            $this->resetCache();
+            return $touch;
+        }
+        
+        /**
+         * Touches file to update last modified time only
+         * @param int $time
+         * @return boolean
+         */
+        public function setTime($time = null) {
+            return $this->touch($time);
+        }
+        
+        /**
+         * Touches file to update last access time only
+         * @param int $time
+         * @return boolean
+         */
+        public function setAccessTime($time = null) {
+            if(is_null($time)) {
+                $time = time();
+            }
+            
+            return $this->touch(date('U', filemtime(filename)),$time);
+        }
+        
+        public function resetCache() {
+            return clearstatcache(true, $this->path);
         }
 
         /**
@@ -333,7 +365,7 @@ namespace qio {
             } else {
                 $this->mode = new File\Permission($mode);
             }
-            return chmod($this->path , $mode);
+            return chmod($this->path, $mode);
         }
 
         /**

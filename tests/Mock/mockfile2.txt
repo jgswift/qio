@@ -1,1 +1,1 @@
-O:19:"qio\Tests\Mock\User":1:{s:4:"name";s:4:"test";}
+test

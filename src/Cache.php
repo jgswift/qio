@@ -1,7 +1,5 @@
 <?php
 namespace qio {
-    use qtil;
-    
     interface Cache extends \ArrayAccess {
         const STATE_HAS = 'has';
         const STATE_LOAD = 'load';

@@ -25,7 +25,6 @@ namespace qio\Tests {
             }
         }
         
-        
         function testFileCacheUpdate() {
             $stream = new \qio\Directory\Stream($this->target);
             $reader = new \qio\Directory\Reader($stream);
@@ -52,6 +51,24 @@ namespace qio\Tests {
             $list = $reader->scan();
             
             $this->assertEquals(2,count($list));
+        }
+        
+        function testFileCacheCRUD() {
+            $user1 = new \qio\Tests\Mock\User;
+            
+            $this->cache->save('myuser',$user1);
+            
+            $user2 = $this->cache->load('myuser');
+            
+            $this->assertEquals($user1,$user2);
+            
+            $this->assertTrue($this->cache->has('myuser'));
+            
+            $this->cache->delete('myuser');
+            
+            $this->assertFalse($this->cache->has('myuser'));
+            
+            $this->assertTrue((strpos($this->cache->getPath('myuser'),'tests/Mock/app/myuser') !== false));
         }
     }
 }

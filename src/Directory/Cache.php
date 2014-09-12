@@ -94,10 +94,6 @@ namespace qio\Directory {
          * @param mixed $value
          */
         function save($name, $value) {
-            if(!is_string($value)) {
-                $value = (string)$value;
-            }
-
             $stream = $this->getStream($name, qio\Stream\Mode::ReadWriteTruncate);
             $filewriter = new qio\File\Writer($stream);
             $writer = new qio\Object\Serial\Writer($filewriter);
@@ -143,8 +139,14 @@ namespace qio\Directory {
                is_string($this->data['prepend'])) {
                 $path = $this->data['prepend'].'.'.$path;
             }
+            
+            $sourcePath = (string)$this->source;
+            
+            if(!qtil\StringUtil::endsWith($sourcePath,DIRECTORY_SEPARATOR)) {
+                $sourcePath .= DIRECTORY_SEPARATOR;
+            }
 
-            return (string)$this->source.DIRECTORY_SEPARATOR.$path;
+            return $sourcePath.$path;
         }
 
         /**

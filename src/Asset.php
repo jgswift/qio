@@ -1,7 +1,6 @@
 <?php
 namespace qio {
-    interface Asset extends \kfiltr\Interfaces\Hook, Resource
-    {
+    interface Asset extends \kfiltr\Interfaces\Hook, Resource {
         /**
          * Default asset constructor
          * @param string $sourcePath
