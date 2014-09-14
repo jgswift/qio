@@ -70,5 +70,21 @@ namespace qio\Tests {
             
             $this->assertTrue((strpos($this->cache->getPath('myuser'),'tests/Mock/app/myuser') !== false));
         }
+        
+        function testAssetCacheRules() {
+            $this->assertEquals(true,$this->cache->isEnabled());
+            
+            $file = new \qio\File(__DIR__.DIRECTORY_SEPARATOR.'Mock'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'image.jpg');
+            
+            $asset = new \qio\File\Asset($this->cache, $file);
+            
+            $this->cache->setRules([
+                new \qio\Directory\Cache\Rule\LastModified($asset)
+            ]);
+            
+            $rules = $this->cache->getRules();
+            
+            $this->assertEquals(1,count($rules));
+        }
     }
 }

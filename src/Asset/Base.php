@@ -24,6 +24,10 @@ namespace qio\Asset {
             
             $this->sourceRoot = new qio\Directory(dirname($sourcePath));
             
+            if($sourcePath instanceof qio\Resource) {
+                $sourcePath = $sourcePath->getPath();
+            }
+            
             $this->setPath($sourcePath);
         }
         
