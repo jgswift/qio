@@ -2,8 +2,9 @@
 namespace qio\File {
     use observr;
     use qio;
+    use observr\Subject\SubjectInterface;
     
-    class Upload {
+    class Upload implements SubjectInterface{
         use observr\Subject;
 
         private $files = [];

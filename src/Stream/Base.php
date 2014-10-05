@@ -2,8 +2,9 @@
 namespace qio\Stream {
     use observr;
     use qio;
+    use observr\Subject\SubjectInterface;
     
-    abstract class Base implements \qio\Stream {
+    abstract class Base implements qio\Stream, SubjectInterface {
         use observr\Subject;
         
         /**

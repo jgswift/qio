@@ -4,10 +4,10 @@ namespace qio\Asset {
     use qtil;
     use kfiltr;
     use observr;
-    
+    use observr\Subject\SubjectInterface;
     use qio\Cache\Event;
     
-    abstract class Cache extends qio\Cache\Base {
+    abstract class Cache extends qio\Cache\Base implements SubjectInterface {
         use observr\Subject, kfiltr\Hook;
 
         /**
