@@ -15,11 +15,11 @@ namespace qio\File\Upload {
         
         /**
          * Helper function to complete uploads
-         * @param \qio\File\Upload\Upload\File $file
+         * @param \qio\File\Upload\File $file
          * @param string $uploadDirectory
          * @return boolean
          */
-        protected function saveFile(Upload\File $file, $uploadDirectory = null) {
+        protected function saveFile(File $file, $uploadDirectory = null) {
             if($file->getErrorCode() !== ExceptionMode::OK) {
                 return $this->error($file, $file->getErrorMessage());
             }
