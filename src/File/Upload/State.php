@@ -7,9 +7,9 @@ namespace qio\File\Upload {
         
         /**
          * Constructor for uploader utilty state
-         * @param \qio\Upload $uploader
+         * @param \qio\File\Upload $uploader
          */
-        public function __construct(\qio\Upload $uploader) {
+        public function __construct(\qio\File\Upload $uploader) {
             $this->uploader = $uploader;
         }
         

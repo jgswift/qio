@@ -170,9 +170,7 @@ namespace qio\File {
          * Parse php upload stream
          */
         private function parse() {
-            $input = \Kin::$input;
-
-            foreach($input->files as $field => $fileInfo) {
+            foreach($_FILES as $field => $fileInfo) {
                 $this->multiUpload = \is_array($fileInfo['name']);
                         
                 if($this->multiUpload) {
